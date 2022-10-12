@@ -1,0 +1,15 @@
+.movie-poster {
+  width: 13rem;
+}
+
+#movie-gallery-container {
+  border: 2px red solid;
+  width: 60rem;
+  display: flex;
+}
+
+.movie-tile {
+  border: 1px solid blue;
+  margin: 1rem;
+  width: 30%;
+}
