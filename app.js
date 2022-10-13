@@ -52,19 +52,34 @@ const movieTile = document.getElementsByClassName("movie-tile");
 
 function renderMovieData(movieData) {
   const movieKeys = Object.keys(movieData);
+  // Returns object as array with 2 elements each
   const movieInfo = Object.entries(movieData);
-
-  // for each key return values
+  console.log(movieInfo);
 
   for (let i = 0; i < movieKeys.length; i++) {
-    // step 1. return movie keys
-    console.log(movieKeys[i]);
-    // step 2. get key/value for movie info
-    for (const [key, value] of Object.entries(movieInfo[1][1])) {
-      console.log(key, value);
-    }
+    const title = movieKeys[i];
+    const plot = movieInfo[i][1].hasOwnProperty("plot")
+      ? movieInfo[i][1].plot
+      : `Plot TBC`;
 
-    // step 3. render to dom - if there is no rating/year/runtime key then leave blank or put place holder in dom
+    const runtime = movieInfo[i][1].hasOwnProperty("runtime")
+      ? movieInfo[i][1].runtime
+      : `runtime TBC`;
+
+    const year = movieInfo[i][1].hasOwnProperty("year")
+      ? movieInfo[i][1].year
+      : `year TBC`;
+
+    const cast = movieInfo[i][1].hasOwnProperty("cast")
+      ? movieInfo[i][1].cast
+      : `cast TBC`;
+
+    console.log(title);
+    console.log(plot);
+    console.log(runtime);
+    console.log(year);
+    console.log(typeof cast);
   }
 }
+
 renderMovieData(movieData);
