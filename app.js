@@ -35,22 +35,13 @@ let movieData = {
 };
 
 const galleryContainer = document.getElementById("movie-gallery-container");
-const movieTile = document.getElementsByClassName("movie-tile");
-// const moviePosters = document.getElementsByClassName("movie-poster");
-// const movieTitle = document.getElementsByClassName("movie-title");
-// const moviePlot = document.getElementsByClassName("movie-plot");
-// const castContainer = document.getElementsByClassName("cast-div");
-// const castList = document.getElementsByClassName("class-list");
-// const castMember = document.getElementsByClassName("cast-member");
-// const runtime = document.getElementsByClassName("runtime");
-// const rating = document.getElementsByClassName("rating");
 
 // add option to filter movies by rating or/and year
 // allow user to add own movie
 
 // loop through each prop and send to screen
 
-function renderMovieData(movieData) {
+function retrieveData(movieData) {
   const movieKeys = Object.keys(movieData);
   // Returns object as array with 2 elements each
   const movieInfo = Object.entries(movieData);
@@ -66,6 +57,10 @@ function renderMovieData(movieData) {
       ? movieInfo[i][1].runtime
       : `runtime TBC`;
 
+    const rating = movieInfo[i][1].hasOwnProperty("rating")
+      ? movieInfo[i][1].rating
+      : `rating TBC`;
+
     const year = movieInfo[i][1].hasOwnProperty("year")
       ? movieInfo[i][1].year
       : `year TBC`;
@@ -74,12 +69,59 @@ function renderMovieData(movieData) {
       ? movieInfo[i][1].cast
       : `cast TBC`;
 
-    console.log(title);
-    console.log(plot);
-    console.log(runtime);
-    console.log(year);
-    console.log(typeof cast);
+    renderData(title, plot, runtime, year, rating, cast);
   }
 }
 
-renderMovieData(movieData);
+// Create a renderData function
+
+function renderData(title, plot, runtime, year, rating, cast) {
+  const movieTile = document.createElement("div");
+  movieTile.classList.add("movie-tile");
+  //   const movieYear = document.createElement("p");
+  //   movieYear.classList.add("")
+  const moviePoster = document.createElement("div");
+  moviePoster.classList.add("movie-poster");
+  const movieTitle = document.createElement("h3");
+  movieTitle.classList.add("movie-title");
+  const movieYear = document.createElement("span");
+  movieYear.classList.add("movie-year");
+  const moviePlot = document.createElement("p");
+  moviePlot.classList.add("movie-plot");
+  const movieRuntime = document.createElement("p");
+  movieRuntime.classList.add("runtime");
+  const movieRating = document.createElement("p");
+  movieRating.classList.add("rating");
+  const castContainerUl = document.createElement("ul");
+  castContainerUl.classList.add("cast-list");
+
+  // for each cast member > create li element and append cast
+  movieTitle.textContent = title;
+  movieYear.textContent = year;
+  moviePlot.textContent = plot;
+  movieRuntime.textContent = runtime;
+  movieRating.textContent = rating;
+
+  let castList = [];
+
+  for (let i = 0; i < cast.length; i++) {
+    const castLi = document.createElement("li");
+    castLi.classList.add("cast-member");
+    castLi.textContent = cast[i];
+    castContainerUl.append(castLi);
+    castList.push(cast[i]);
+  }
+  movieTile.appendChild(moviePoster);
+  movieTile.appendChild(movieTitle);
+  movieTile.appendChild(movieYear);
+  movieTile.appendChild(moviePlot);
+  movieTile.appendChild(movieRuntime);
+  movieTile.appendChild(movieRating);
+  movieTile.appendChild(movieRating);
+  movieTile.appendChild(castContainerUl);
+  galleryContainer.appendChild(movieTile);
+}
+
+// Create a updateData function
+
+retrieveData(movieData);
