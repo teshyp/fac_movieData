@@ -4,7 +4,7 @@ let movieData = {
     cast: ["Jason Schwartzman", "Owen Wilson", "Adrien Brody"],
     runtime: 151,
     rating: 7.2,
-    year: 2007,
+    year: 2000,
   },
   "The Royal Tenenbaums": {
     plot: "The eccentric members of a dysfunctional family reluctantly gather under the same roof for various reasons",
@@ -39,65 +39,69 @@ const galleryContainer = document.getElementById("movie-gallery-container");
 // add option to filter movies by rating or/and year
 // allow user to add own movie
 
-// loop through each prop and send to screen
+// reorg data, loop through object and call render function
 
-function retrieveData(movieData) {
+function returnState(movieData) {
+  clearAll();
+  let yearFilterOptions = [];
   const movieKeys = Object.keys(movieData);
   // Returns object as array with 2 elements each
   const movieInfo = Object.entries(movieData);
-  console.log(movieInfo);
 
   for (let i = 0; i < movieKeys.length; i++) {
     const title = movieKeys[i];
     const plot = movieInfo[i][1].hasOwnProperty("plot")
       ? movieInfo[i][1].plot
-      : `Plot TBC`;
+      : `Plot unknown`;
 
     const runtime = movieInfo[i][1].hasOwnProperty("runtime")
       ? movieInfo[i][1].runtime
-      : `runtime TBC`;
+      : `Runtime unknown`;
 
     const rating = movieInfo[i][1].hasOwnProperty("rating")
       ? movieInfo[i][1].rating
-      : `rating TBC`;
+      : `Rating unknown`;
 
     const year = movieInfo[i][1].hasOwnProperty("year")
       ? movieInfo[i][1].year
-      : `year TBC`;
+      : `Year unknown`;
 
     const cast = movieInfo[i][1].hasOwnProperty("cast")
       ? movieInfo[i][1].cast
-      : `cast TBC`;
+      : `Cast unknown`;
 
-    renderData(title, plot, runtime, year, rating, cast);
+    yearFilterOptions.push(movieInfo[i][1].year);
+
+    renderData(title, plot, runtime, year, rating, cast, movieKeys);
   }
+
+  createFilter(yearFilterOptions, movieInfo, movieKeys);
 }
 
-// Create a renderData function
+// Render function to create elements
 
 function renderData(title, plot, runtime, year, rating, cast) {
   const movieTile = document.createElement("div");
-  movieTile.classList.add("movie-tile");
-  //   const movieYear = document.createElement("p");
-  //   movieYear.classList.add("")
   const moviePoster = document.createElement("div");
-  moviePoster.classList.add("movie-poster");
   const movieTitle = document.createElement("h3");
-  movieTitle.classList.add("movie-title");
   const movieYear = document.createElement("span");
-  movieYear.classList.add("movie-year");
   const moviePlot = document.createElement("p");
-  moviePlot.classList.add("movie-plot");
   const movieRuntime = document.createElement("p");
-  movieRuntime.classList.add("runtime");
   const movieRating = document.createElement("p");
-  movieRating.classList.add("rating");
   const castContainerUl = document.createElement("ul");
+
+  movieTile.classList.add("movie-tile");
+  moviePoster.classList.add("movie-poster");
+  movieTitle.classList.add("movie-title");
+  movieYear.classList.add("movie-year");
+  moviePlot.classList.add("movie-plot");
+  movieRuntime.classList.add("runtime");
+  movieRating.classList.add("rating");
   castContainerUl.classList.add("cast-list");
 
-  // for each cast member > create li element and append cast
   movieTitle.textContent = title;
   movieYear.textContent = year;
+  moviePoster.textContent = "Poster placeholder";
   moviePlot.textContent = plot;
   movieRuntime.textContent = runtime;
   movieRating.textContent = rating;
@@ -111,6 +115,7 @@ function renderData(title, plot, runtime, year, rating, cast) {
     castContainerUl.append(castLi);
     castList.push(cast[i]);
   }
+
   movieTile.appendChild(moviePoster);
   movieTile.appendChild(movieTitle);
   movieTile.appendChild(movieYear);
@@ -122,6 +127,74 @@ function renderData(title, plot, runtime, year, rating, cast) {
   galleryContainer.appendChild(movieTile);
 }
 
-// Create a updateData function
+// Filter movies by year and return data
+// function filterMovieByYears(movieData, filterYear, movieKeys) {
+//   const movieInfo = Object.entries(movieData);
+//   let filteredMovies = [];
 
-retrieveData(movieData);
+//   for (let i = 0; i < movieKeys.length; i++) {
+//     const year = movieInfo[i][1].hasOwnProperty("year")
+//       ? movieInfo[i][1].year
+//       : `Year unknown`;
+
+//     if (year === filterYear) {
+//       filteredMovies.push(movieInfo[i]);
+//     }
+//   }
+
+//   returnState(filteredMovies, movieKeys);
+// }
+
+// Create filter and render
+function createFilter(yearFilterOptions, movieInfo, movieKeys) {
+  const filterOptions = yearFilterOptions;
+
+  const label = document.createElement("label");
+  label.innerHTML = "Filter movies by year";
+  label.htmlFor = "yearOptions";
+  label.id = "yearsFilter";
+
+  const select = document.createElement("select");
+  select.name = "yearOptions";
+  select.id = "yearOptions";
+
+  for (let i = 0; i < filterOptions.length; i++) {
+    let yearChoice = document.createElement("option");
+    yearChoice.classList.add("yearOpt");
+    yearChoice.setAttribute(`data-year`, `${yearChoice.value}`);
+    yearChoice.value = filterOptions[i];
+    yearChoice.text = filterOptions[i];
+    select.appendChild(yearChoice);
+  }
+
+  select.addEventListener("change", function () {
+    const filteredYear = event.target.value;
+    let filteredState = [];
+
+    for (let i = 0; i < movieKeys.length; i++) {
+      if (filteredYear == movieInfo[i][1].year) {
+        filteredState[`${movieKeys[i]}`] = movieInfo[i][1];
+      }
+    }
+
+    const seeAllBtn = document.createElement("button");
+    seeAllBtn.innerHTML = "Back to all movies";
+    seeAllBtn.id = "seeAllBtn";
+
+    returnState(filteredState);
+
+    if (yearsFilter) yearsFilter.remove();
+
+    seeAllBtn.addEventListener("click", returnState(movieData));
+
+    galleryContainer.appendChild(seeAllBtn);
+  });
+
+  galleryContainer.appendChild(label).appendChild(select);
+}
+
+function clearAll() {
+  galleryContainer.innerHTML = "";
+}
+
+returnState(movieData);
