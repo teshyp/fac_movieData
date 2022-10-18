@@ -4,7 +4,6 @@
 }
 
 #movie-gallery-container {
-  border: 2px red solid;
   width: 60rem;
   display: flex;
   flex-wrap: wrap;
@@ -19,4 +18,13 @@
 #seeAllBtn {
   width: 5rem;
   height: 3rem;
+}
+
+#form-container {
+  border: solid 2px red;
+  width: 35rem;
+}
+
+.form-hide {
+  display: none;
 }

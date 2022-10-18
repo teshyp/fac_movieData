@@ -36,13 +36,10 @@ let movieData = {
 
 const galleryContainer = document.getElementById("movie-gallery-container");
 
-// add option to filter movies by rating or/and year
-// allow user to add own movie
-
-// reorg data, loop through object and call render function
+// Function to: check data validity
 
 function returnState(movieData) {
-  clearAll();
+  clearGallery();
   let yearFilterOptions = [];
   const movieKeys = Object.keys(movieData);
   // Returns object as array with 2 elements each
@@ -78,7 +75,7 @@ function returnState(movieData) {
   createFilter(yearFilterOptions, movieInfo, movieKeys);
 }
 
-// Render function to create elements
+// Function to: dynamically create elements and render to display screen
 
 function renderData(title, plot, runtime, year, rating, cast) {
   const movieTile = document.createElement("div");
@@ -145,7 +142,7 @@ function renderData(title, plot, runtime, year, rating, cast) {
 //   returnState(filteredMovies, movieKeys);
 // }
 
-// Create filter and render
+// Function to: dynamically create drop down filter and render to display
 function createFilter(yearFilterOptions, movieInfo, movieKeys) {
   const filterOptions = yearFilterOptions;
 
@@ -171,6 +168,7 @@ function createFilter(yearFilterOptions, movieInfo, movieKeys) {
     const filteredYear = event.target.value;
     let filteredState = [];
 
+    // Loop to filter through objects to find all movies from the chosen year
     for (let i = 0; i < movieKeys.length; i++) {
       if (filteredYear == movieInfo[i][1].year) {
         filteredState[`${movieKeys[i]}`] = movieInfo[i][1];
@@ -181,11 +179,12 @@ function createFilter(yearFilterOptions, movieInfo, movieKeys) {
     seeAllBtn.innerHTML = "Back to all movies";
     seeAllBtn.id = "seeAllBtn";
 
+    // Render filtered movies from chosen year
     returnState(filteredState);
 
     if (yearsFilter) yearsFilter.remove();
 
-    seeAllBtn.addEventListener("click", returnState(movieData));
+    seeAllBtn.addEventListener("click", () => returnState(movieData));
 
     galleryContainer.appendChild(seeAllBtn);
   });
@@ -193,8 +192,62 @@ function createFilter(yearFilterOptions, movieInfo, movieKeys) {
   galleryContainer.appendChild(label).appendChild(select);
 }
 
-function clearAll() {
+function clearGallery() {
   galleryContainer.innerHTML = "";
 }
 
 returnState(movieData);
+
+const formSubmitBtn = document.getElementById("btn-submit");
+
+const inputTitle = document.getElementById("input-title");
+const inputYear = document.getElementById("input-year");
+const inputPlot = document.getElementById("input-plot");
+const inputRuntime = document.getElementById("input-runtime");
+const inputRating = document.getElementById("input-runtime");
+const inputCast = document.getElementsByClassName("input-cast");
+
+const addMovieToLibrary = function (
+  movieData,
+  inputTitle,
+  inputYear,
+  inputPlot,
+  inputRuntime,
+  inputRating,
+  inputCast
+) {
+  console.log("test working");
+  const castArray = [inputCast];
+
+  for (let i = 0; i < inputCast.length; i++) {
+    castArray.push(inputCast[i].value);
+  }
+
+  let checkedTitle = inputTitle.value;
+  let checkedYear = inputYear.value;
+  let checkedPlot = inputPlot.value;
+  let checkedRuntime = inputRuntime.value;
+  let checkedRating = inputRating.value;
+
+  movieData[checkedTitle] = {
+    cast: castArray,
+    plot: checkedPlot,
+    rating: checkedRating,
+    runtime: checkedRuntime,
+    year: checkedYear,
+  };
+
+  returnState(movieData);
+};
+
+formSubmitBtn.addEventListener("click", () =>
+  addMovieToLibrary(
+    movieData,
+    inputTitle,
+    inputYear,
+    inputPlot,
+    inputRuntime,
+    inputRating,
+    inputCast
+  )
+);
