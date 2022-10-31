@@ -5,25 +5,65 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200&display=swap" rel="stylesheet">
+    
+    <title>MyFavMovies</title>
   </head>
   <body>
+    <div id="left-container">
+    <h1> MyFavMovies.com </h1>
+    <h2> One place for your family to watch the latest movie releases and save your own catalogue. </h2>
+    <h3> Upload your own movies by completing the form below .</h3>
+    
     <section id="form-container" class="form-display">
-      <div id="form-input-area" >
-        <div><label>Movie title<title></title></label><input type="text" id="input-title" name="name" required></div>
-        <div><label> Year released </label><input type="number" id="input-year" name="Year" minlength="4" maxlength="4" required></div>
-        <div><label> Plot </label><input type="text" id="input-plot" name="plot" ></div>
-        <div><label>Runetime (mins) </label><input type="number" id="input-runtime" maxlength="4" name="name" required>
-          <div><label> Rating </label><input type="number" id="input-rating" minlength="1" maxlength="2" name="rating" >
-  <div id="cast-form">
-    <label> Cast members <title> </title></label><input type="text" class="input-cast" name="cast" required>
-    <input type="text" class="input-cast" name="cast" required>
-    <input type="text" class="input-cast" name="cast" required>
-    <input type="text" class="input-cast" name="cast" required>
-  </div>
+     
+<form id="form-input-area"" action="">
+<table>
+  <tr>
+    <td align=""> <label id="label-title">Movie title<title></title></label></td>
+      <td align=""> <input type="text" id="input-title" class="input-fields" name="name" required> </td>
+  </tr>
+  <tr>
+    <td align=""> <label id="label-year"> Year released </label></label></td>
+    <td align=""> <input type="text" id="input-year" class="input-fields"name="name" ></td>
+  </tr>
+  <tr>
+    <td align=""> <label id="label-plot"> Plot </label> </td>
+    <td align="">  <input type="text" id="input-plot" class="input-fields"name="plot" > </td>
+  </tr>
+  <tr>
+    <td align=""> <label id="label-runtime">Runetime (mins) </label> </td>
+    <td align=""> <input type="number" id="input-runtime" class="input-fields"maxlength="4" name="name" > </td>
+  </tr>
+  <tr>
+    <td align=""> <label id="label-rating"> Rating </label> </td>
+    <td align=""> <input type="number" id="input-rating"class="input-fields" minlength="1" maxlength="2" name="rating" > </td>
+  </tr>
+<td>
+</table>
+  <label id="label-cast"> Cast members <title> </title></label>
+  <div id="cast-table">
+    <div>
+      <input type="text" class="input-cast" name="cast" required >
+      <input type="text" class="input-cast" name="cast"required >
+      <input type="text" class="input-cast" name="cast"required >
+      <input type="text" class="input-cast" name="cast" required>
+    </div>
+
+
+  </div
+
+
+
+      
+</form>
   <button type="submit" id="btn-submit"> Add movie </button>
       </div>
     </section>
+  </div>
 
     <section id="movie-gallery-container">
       <div id="" class="movie-tile">

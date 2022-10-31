@@ -35,6 +35,7 @@ let movieData = {
 };
 
 const galleryContainer = document.getElementById("movie-gallery-container");
+const formArea = document.getElementById("form-input-area");
 
 // Function to: check data validity
 
@@ -72,7 +73,11 @@ function returnState(movieData) {
     renderData(title, plot, runtime, year, rating, cast, movieKeys);
   }
 
-  createFilter(yearFilterOptions, movieInfo, movieKeys);
+  let filter = document.getElementById("yearsFilter");
+
+  if (!filter) {
+    createFilter(yearFilterOptions, movieInfo, movieKeys);
+  }
 }
 
 // Function to: dynamically create elements and render to display screen
@@ -97,20 +102,19 @@ function renderData(title, plot, runtime, year, rating, cast) {
   castContainerUl.classList.add("cast-list");
 
   movieTitle.textContent = title;
-  movieYear.textContent = year;
+  movieYear.textContent = ` Release year: ${year}`;
   moviePoster.textContent = "Poster placeholder";
   moviePlot.textContent = plot;
-  movieRuntime.textContent = runtime;
-  movieRating.textContent = rating;
+  movieRuntime.textContent = `Runtime: ${runtime} mins`;
+  movieRating.textContent = `Rating: ${rating}/10`;
 
-  let castList = [];
+  let castList = Array.from(cast);
 
-  for (let i = 0; i < cast.length; i++) {
+  for (let i = 1; i < castList.length; i++) {
     const castLi = document.createElement("li");
     castLi.classList.add("cast-member");
-    castLi.textContent = cast[i];
+    castLi.textContent = castList[i];
     castContainerUl.append(castLi);
-    castList.push(cast[i]);
   }
 
   movieTile.appendChild(moviePoster);
@@ -118,7 +122,6 @@ function renderData(title, plot, runtime, year, rating, cast) {
   movieTile.appendChild(movieYear);
   movieTile.appendChild(moviePlot);
   movieTile.appendChild(movieRuntime);
-  movieTile.appendChild(movieRating);
   movieTile.appendChild(movieRating);
   movieTile.appendChild(castContainerUl);
   galleryContainer.appendChild(movieTile);
@@ -147,7 +150,7 @@ function createFilter(yearFilterOptions, movieInfo, movieKeys) {
   const filterOptions = yearFilterOptions;
 
   const label = document.createElement("label");
-  label.innerHTML = "Filter movies by year";
+  label.innerHTML = "By year  ";
   label.htmlFor = "yearOptions";
   label.id = "yearsFilter";
 
@@ -175,21 +178,25 @@ function createFilter(yearFilterOptions, movieInfo, movieKeys) {
       }
     }
 
-    const seeAllBtn = document.createElement("button");
-    seeAllBtn.innerHTML = "Back to all movies";
-    seeAllBtn.id = "seeAllBtn";
+    let oldSeeAllBtn = document.getElementById("seeAllBtn");
 
+    if (oldSeeAllBtn == null) {
+      let seeAllBtn = document.createElement("button");
+      seeAllBtn.type = "button";
+      seeAllBtn.innerHTML = "All movies";
+      seeAllBtn.id = "seeAllBtn";
+      seeAllBtn.addEventListener("click", () =>
+        returnState(movieData, seeAllBtn)
+      );
+      formArea.appendChild(seeAllBtn);
+    }
     // Render filtered movies from chosen year
     returnState(filteredState);
 
     if (yearsFilter) yearsFilter.remove();
-
-    seeAllBtn.addEventListener("click", () => returnState(movieData));
-
-    galleryContainer.appendChild(seeAllBtn);
   });
 
-  galleryContainer.appendChild(label).appendChild(select);
+  formArea.appendChild(label).appendChild(select);
 }
 
 function clearGallery() {
@@ -217,6 +224,7 @@ const addMovieToLibrary = function (
   inputCast
 ) {
   console.log("test working");
+  event.preventDefault();
   const castArray = [inputCast];
 
   for (let i = 0; i < inputCast.length; i++) {
