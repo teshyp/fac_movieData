@@ -1,5 +1,5 @@
 body {
-  background-image: url(/images/wallpaper.jpeg);
+  background-image: url("https://github.com/teshyp/fac_movieData/blob/main/images/wallpaper.jpeg?raw=true");
   background-attachment: fixed;
   background-size: cover;
   color: rgb(0, 0, 0);
